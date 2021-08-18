@@ -25,8 +25,11 @@ namespace APICadastro.WebAPI.Controllers
 
         // GET: api/<CadastroController>
         [HttpGet]
-        public ActionResult GetCadastros([FromQuery(Name ="page")] int page)
+        public ActionResult GetCadastros([FromQuery(Name ="page")] int? page)
         {
+            if (page == null)
+                page = 1;
+
             var cadastros = _cadastroRepository.BuscarCadastros(page);
             var cadastrosDto = Mapper.Map<IEnumerable<CadastroDto>>(cadastros);
             return  Ok(cadastrosDto);
@@ -92,7 +95,7 @@ namespace APICadastro.WebAPI.Controllers
         {
             var cadastro = Mapper.Map<Cadastro>(cadastroDto);
              _cadastroRepository.AtualizarCadastro(id, cadastro);
-        }
+        }   
 
         // PUT api/<CadastroController>
         [HttpPut("endereco/{id}")]

@@ -1,0 +1,169 @@
+<app-titulo [titulo]="'Cadastros'"></app-titulo>
+
+<div *ngIf="cadastroSelecionado">
+  <div class="row>">
+    <div class="mr-auto">
+
+    </div>
+
+    <div class="mt-1">
+      <button class="btn btn-warning" (click)="voltar()">Voltar</button>
+    </div>
+  </div>
+
+  <form [formGroup]="cadastroForm" (submit)="cadastroSubmit()">
+    <div class="form-group">
+      <label for="nome">Nome</label>
+      <input type="text" formControlName="nome" class="form-control" id="nome">
+    </div>
+    <div class="form-group">
+      <label for="cpf">CPF</label>
+      <input type="text" formControlName="cPF"class="form-control" id="cpf">
+    </div>
+    <div class="form-group">
+      <label for="rg">RG</label>
+      <input type="text" formControlName="rG"class="form-control" id="rG">
+    </div>
+    <div class="form-group">
+      <label for="dataNascimeto">Data de Nascimento</label>
+      <input type="date" formControlName="dataNascimeto" class="form-control" id="dataNascimeto">
+    </div>
+    <div class="form-group">
+      <label for="facebook">Facebook</label>
+      <input type="text" formControlName="facebook"class="form-control" id="facebook">
+    </div>
+    <div class="form-group">
+      <label for="twitter">Twitter</label>
+      <input type="text" formControlName="twitter"class="form-control" id="twitter">
+    </div>
+    <div class="form-group">
+      <label for="linkedin">Linkedin</label>
+      <input type="text" formControlName="linkedin"class="form-control" id="linkedin">
+    </div>
+    <div class="form-group">
+      <label for="instagram">Instagram</label>
+      <input type="text" formControlName="instagram"class="form-control" id="instagram">
+    </div>
+    <div class="mt-1">
+      <button class="btn btn-success" [disabled]="!cadastroForm.valid">Enviar</button>
+    </div>
+  </form>
+  <div class="row">
+    <div class="mt-1">
+      <button class="btn btn-warning" (click)="mostrarEnderecos(mostrandoEndereco)">Enderecos</button>
+    </div>
+    <div class="mt-1">
+      <button class="btn btn-warning" (click)="mostrarTelefones(mostrandoTelefone)">Telefones</button>
+    </div>
+  </div>
+  <div *ngIf="mostrandoEndereco">
+    <table class="table" >
+      <thead>
+        <tr>
+          <th scope="col">Identificação</th>
+          <th scope="col">Logradouro</th>
+          <th scope="col">Cidade</th>
+          <th scope="col">UF</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let endereco of cadastroSelecionado.enderecos">
+          <td>{{endereco.identificacao}}</td>
+          <td>{{endereco.logradouro}}</td>
+          <td>{{endereco.cidade}}</td>
+          <td>{{endereco.uF}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <form [formGroup]="cadastroEnderecoForm" (submit)="cadastroEnderecoSubmit()">
+      <div class="form-group">
+        <label for="identificacao">Identificação do Endereco</label>
+        <input type="text" formControlName="identificacao" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="logradouro">Logradouro</label>
+        <input type="text" formControlName="logradouro"class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="cidade">Cidade</label>
+        <input type="text" formControlName="cidade"class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="uF">UF</label>
+        <input type="text" formControlName="uF" class="form-control" >
+      </div>
+      <div class="mt-1">
+        <button class="btn btn-success" [disabled]="!cadastroEnderecoForm.valid">Adicionar Endereço</button>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="mostrandoTelefone">
+    <table class="table" >
+      <thead>
+        <tr>
+          <th scope="col">Identificação</th>
+          <th scope="col">DDD</th>
+          <th scope="col">Telefone</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let telefone of cadastroSelecionado.telefones">
+          <td>{{telefone.identificacao}}</td>
+          <td>{{telefone.dDD}}</td>
+          <td>{{telefone.numeroTelefone}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <form [formGroup]="cadastroTelefoneForm" (submit)="cadastroTelefoneSubmit()">
+      <div class="form-group">
+        <label for="identificacao">Identificação do Telefone</label>
+        <input type="text" formControlName="identificacao" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="dDD">DDD</label>
+        <input type="text" formControlName="dDD"class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="numeroTelefone">Telefone</label>
+        <input type="text" formControlName="numeroTelefone"class="form-control">
+      </div>
+      <div class="mt-1">
+        <button class="btn btn-success" [disabled]="!cadastroTelefoneForm.valid">Adicionar Telefone</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div *ngIf="!cadastroSelecionado">
+  <div class="contaier">
+    <div class="row">
+      <form >
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" #nomeBusca class="form-control" >
+        </div>
+        <div class="mt-1">
+          <button class="btn btn-success" (click)="buscarNome(nomeBusca.value)">Buscar</button>
+        </div>
+      </form>
+    </div>
+    <table class="table" table-hover>
+      <thead>
+        <tr>
+          <th scope="col">Nome</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cadastro of cadastros"
+        style="cursor: pointer" (click)="cadastroSelect(cadastro)">
+          <th scope="row">{{cadastro.id}}</th>
+          <td>{{cadastro.nome}}</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+

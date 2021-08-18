@@ -1,0 +1,40 @@
+<app-titulo [titulo]="'Novo Cadastro'"></app-titulo>
+<div class="container">
+  <form [formGroup]="novoCadastroForm" (submit)="novoCadastroSubmit()">
+    <div class="form-group">
+      <label for="nome">Nome</label>
+      <input type="text" formControlName="nome" class="form-control" id="nome">
+    </div>
+    <div class="form-group">
+      <label for="cpf">CPF</label>
+      <input type="text" formControlName="cPF"class="form-control" id="cpf">
+    </div>
+    <div class="form-group">
+      <label for="rg">RG</label>
+      <input type="text" formControlName="rG"class="form-control" id="rG">
+    </div>
+    <div class="form-group">
+      <label for="dataNascimeto">Data de Nascimento</label>
+      <input type="date" formControlName="dataNascimeto" class="form-control" id="dataNascimeto">
+    </div>
+    <div class="form-group">
+      <label for="facebook">Facebook</label>
+      <input type="text" formControlName="facebook"class="form-control" id="facebook">
+    </div>
+    <div class="form-group">
+      <label for="twitter">Twitter</label>
+      <input type="text" formControlName="twitter"class="form-control" id="twitter">
+    </div>
+    <div class="form-group">
+      <label for="linkedin">Linkedin</label>
+      <input type="text" formControlName="linkedin"class="form-control" id="linkedin">
+    </div>
+    <div class="form-group">
+      <label for="instagram">Instagram</label>
+      <input type="text" formControlName="instagram"class="form-control" id="instagram">
+    </div>
+    <div class="mt-1">
+      <button class="btn btn-success" [disabled]="!novoCadastroForm.valid">Enviar</button>
+    </div>
+  </form>
+</div>
