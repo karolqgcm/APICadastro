@@ -15,8 +15,17 @@ export class DashboardService {
   getCadastros():Observable<Cadastro[]>{
     return this.http.get<Cadastro[]>(`${this.baseUrl}`);
   }
+
   getCadastrosPorNome(nome:string):Observable<Cadastro[]>{
     return this.http.get<Cadastro[]>(`${this.baseUrl}nome/${nome}`);
+  }
+
+  getTelefones(idCadastro: string):Observable<Telefone[]>{
+    return this.http.get<Telefone[]>(`${this.baseUrl}telefone/${idCadastro}`);
+  }
+
+  getEnderecos(idCadastro: string):Observable<Endereco[]>{
+    return this.http.get<Endereco[]>(`${this.baseUrl}endereco/${idCadastro}`);
   }
 
   putCadastro(idCadastro: string, cadastroAtualizado: Cadastro){

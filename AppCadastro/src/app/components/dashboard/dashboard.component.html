@@ -18,15 +18,15 @@
     </div>
     <div class="form-group">
       <label for="cpf">CPF</label>
-      <input type="text" formControlName="cPF"class="form-control" id="cpf">
+      <input type="text" formControlName="cpf"class="form-control" id="cpf">
     </div>
     <div class="form-group">
       <label for="rg">RG</label>
-      <input type="text" formControlName="rG"class="form-control" id="rG">
+      <input type="text" formControlName="rg"class="form-control" id="rG">
     </div>
     <div class="form-group">
       <label for="dataNascimeto">Data de Nascimento</label>
-      <input type="date" formControlName="dataNascimeto" class="form-control" id="dataNascimeto">
+      <input type="date" [ngModel]=" date:'yyyy-MM-dd'" formControlName="dataNascimeto" class="form-control" id="dataNascimeto">
     </div>
     <div class="form-group">
       <label for="facebook">Facebook</label>
@@ -63,7 +63,7 @@
           <th scope="col">Identificação</th>
           <th scope="col">Logradouro</th>
           <th scope="col">Cidade</th>
-          <th scope="col">UF</th>
+          <th scope="col">uf</th>
         </tr>
       </thead>
       <tbody>
@@ -71,7 +71,7 @@
           <td>{{endereco.identificacao}}</td>
           <td>{{endereco.logradouro}}</td>
           <td>{{endereco.cidade}}</td>
-          <td>{{endereco.uF}}</td>
+          <td>{{endereco.uf}}</td>
         </tr>
       </tbody>
     </table>
@@ -90,8 +90,12 @@
         <input type="text" formControlName="cidade"class="form-control">
       </div>
       <div class="form-group">
-        <label for="uF">UF</label>
-        <input type="text" formControlName="uF" class="form-control" >
+        <label for="uf">uf</label>
+        <select class="form-control" formControlName="uf">
+          <option *ngFor="let estado of estados" [value]="estado.uf">
+            {{estado.nome}}
+          </option>
+        </select>
       </div>
       <div class="mt-1">
         <button class="btn btn-success" [disabled]="!cadastroEnderecoForm.valid">Adicionar Endereço</button>

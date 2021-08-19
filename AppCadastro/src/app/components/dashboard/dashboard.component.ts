@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Cadastro, Endereco, Telefone } from 'src/app/models/Cadastro';
+import { Cadastro, Endereco, Estado, Telefone } from 'src/app/models/Cadastro';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import {NgForm} from '@angular/forms';
 import { DashboardService } from './dashboard.service';
@@ -20,6 +20,35 @@ export class DashboardComponent implements OnInit {
   public mostrandoTelefone: boolean = false;
   private cadastroAtualizado: Cadastro;
   public nomeBusca: string;
+  public estados: Estado[] = [
+    {'uf':'AC','nome': 'Acre'},
+    {'uf':'AL','nome': 'Alagoas'},
+    {'uf':'AP','nome': 'Amapá'},
+    {'uf':'AM','nome': 'Amazonas'},
+    {'uf':'BA','nome': 'Bahia'},
+    {'uf':'CE','nome': 'Ceará'},
+    {'uf':'DF','nome': 'Distrito Federal'},
+    {'uf':'ES','nome': 'Espírito Santo'},
+    {'uf':'GO','nome': 'Goiás'},
+    {'uf':'MA','nome': 'Maranhão'},
+    {'uf':'MT','nome': 'Mato Grosso'},
+    {'uf':'MS','nome': 'Mato Grosso do Sul'},
+    {'uf':'MG','nome': 'Minas Gerais'},
+    {'uf':'PA','nome': 'Pará'},
+    {'uf':'PB','nome': 'Paraíba'},
+    {'uf':'PR','nome': 'Paraná'},
+    {'uf':'PE','nome': 'Pernambuco'},
+    {'uf':'PI','nome': 'Piauí'},
+    {'uf':'RJ','nome': 'Rio de Janeiro'},
+    {'uf':'RN','nome': 'Rio Grande do Norte'},
+    {'uf':'RS','nome': 'Rio Grande do Sul'},
+    {'uf':'RO','nome': 'Rondônia'},
+    {'uf':'RR','nome': 'Roraima'},
+    {'uf':'SC','nome': 'Santa Catarina'},
+    {'uf':'SP','nome': 'São Paulo'},
+    {'uf':'SE','nome': 'Sergipe'},
+    {'uf':'TO','nome': 'Tocantins'}
+  ]
 
   constructor( private fb: FormBuilder,
                private dashboardService: DashboardService) {
@@ -47,6 +76,7 @@ export class DashboardComponent implements OnInit {
   cadastroSelect( cadastro: Cadastro){
     this.cadastroSelecionado = cadastro;
     this.cadastroForm.patchValue(cadastro);
+    console.log(this.cadastroSelecionado);
   }
 
   voltar(){
@@ -63,8 +93,8 @@ export class DashboardComponent implements OnInit {
       linkedin:[''],
       twitter:[''],
       instagram:[''],
-      cPF:['', Validators.required],
-      rG:['']
+      cpf:['', Validators.required],
+      rg:['']
     });
   }
 
@@ -73,7 +103,7 @@ export class DashboardComponent implements OnInit {
       identificacao:['', Validators.required],
       logradouro:[''],
       cidade:[''],
-      uF:['']
+      uf:['']
     })
   }
 
@@ -86,6 +116,7 @@ export class DashboardComponent implements OnInit {
   }
 
   mostrarEnderecos(mostrar: boolean){
+    console.log(this.cadastroSelecionado.enderecos);
     this.mostrandoEndereco = !mostrar;
   }
 
@@ -94,7 +125,6 @@ export class DashboardComponent implements OnInit {
   }
 
   cadastroSubmit(){
-    console.log(this.cadastroForm.value);
     this.cadastroAtualizado = this.cadastroForm.value;
     this.cadastroAtualizado.enderecos = this.cadastroSelecionado.enderecos;
     this.cadastroAtualizado.telefones = this.cadastroSelecionado.telefones;
@@ -106,6 +136,19 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.putEndereco(this.cadastroSelecionado.id, this.cadastroEnderecoForm.value).subscribe(
       (endereco: Endereco)=>{
         console.log(endereco);
+        this.atualizarEndereco();
+      },
+      (erro: any)=>{
+        console.log(erro);
+      }
+    );
+  }
+
+  atualizarEndereco(){
+    this.dashboardService.getEnderecos(this.cadastroSelecionado.id).subscribe(
+      (enderecos: Endereco[])=>{
+        console.log(enderecos);
+        this.cadastroSelecionado.enderecos = enderecos;
       },
       (erro: any)=>{
         console.log(erro);
@@ -117,6 +160,19 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.putTelefone(this.cadastroSelecionado.id, this.cadastroTelefoneForm.value).subscribe(
       (telefone: Telefone)=>{
         console.log(telefone);
+        this.atualizarTelefone();
+      },
+      (erro: any)=>{
+        console.log(erro);
+      }
+    );
+  }
+
+  atualizarTelefone(){
+    this.dashboardService.getTelefones(this.cadastroSelecionado.id).subscribe(
+      (telefones: Telefone[])=>{
+        console.log(telefones);
+        this.cadastroSelecionado.telefones = telefones;
       },
       (erro: any)=>{
         console.log(erro);
